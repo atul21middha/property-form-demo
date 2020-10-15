@@ -86,7 +86,7 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
         <div className='mt-3'>
           <label className='font-weight-bold'>Address:</label>
           <GooglePlacesAutocomplete
-            apiKey="AIzaSyBfvfj5oqsEKSY6uLFzrcX0dSvk412wkh0"
+            apiKey={process.env.REACT_APP_API_KEY}
             selectProps={{
               inputValue: addressText,
               onInputChange: handleAddress,
