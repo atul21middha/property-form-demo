@@ -6,7 +6,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   const [csvData, setCsvData] = useState(null);
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(formFillType === 'custom' ? 'Bikaner, Rajasthan, India' : '');
   const [bedrooms, setBedRooms] = useState('');
   const [bathrooms, setBathrooms] = useState('');
   const [description, setDescription] = useState('');
@@ -63,8 +63,9 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
     return formFillType === 'csv' && !csvData
   };
 
-  const handleAddress = value => {
-    setAddressText(value)
+  const handleAddressText = value => {
+    setAddressText(value);
+    setValidationErrors({});
   };
 
   const onSelectAddress = (e) => {
@@ -86,10 +87,10 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
         <div className='mt-3'>
           <label className='font-weight-bold'>Address:</label>
           <GooglePlacesAutocomplete
-            apiKey={process.env.REACT_APP_API_KEY}
+            apiKey='AIzaSyBfvfj5oqsEKSY6uLFzrcX0dSvk412wkh0'
             selectProps={{
               inputValue: addressText,
-              onInputChange: handleAddress,
+              onInputChange: handleAddressText,
               onChange: onSelectAddress,
               isDisabled: handleDisableCondition(),
               placeholder: 'Search the Address...'
@@ -102,14 +103,20 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
         <div className='mt-3'>
           <label className='font-weight-bold'>Number of Bedrooms:</label>
           <input type="text" disabled={handleDisableCondition()} value={bedrooms} className='w-100' maxLength={10}
-                 onChange={(e) => setBedRooms(e.target.value)}/>
+                 onChange={(e) => {
+                   setBedRooms(e.target.value)
+                   setValidationErrors({})
+                 }}/>
           {getErrorMessage('bedrooms')}
         </div>
 
         <div className='mt-3'>
           <label className='font-weight-bold'>Number of Bathrooms:</label>
           <input type="text" disabled={handleDisableCondition()} value={bathrooms} className='w-100' maxLength={5}
-                 onChange={(e) => setBathrooms(e.target.value)}/>
+                 onChange={(e) => {
+                   setBathrooms(e.target.value)
+                   setValidationErrors({})
+                 }}/>
           {getErrorMessage('bathrooms')}
         </div>
 
