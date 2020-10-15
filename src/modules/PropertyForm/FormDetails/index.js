@@ -53,7 +53,7 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   };
 
   const onSaveEvent = () => {
-    onMoveToNextStep()
+    onMoveToNextStep(2, {address, bedrooms, bathrooms, description})
   };
 
   const handleDisableCondition = () => {

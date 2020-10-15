@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {useDropzone} from "react-dropzone";
 
-const UploadImages = ({onMoveToPrevStep}) => {
-  const [files, setFiles] = useState([]);
+const UploadImages = ({onMoveToPrevStep, onSubmitForm}) => {
+  const [images, setImages] = useState([]);
   const [featuredImage, setFeaturedImage] = useState('');
 
   const {getRootProps, getInputProps} = useDropzone({
-    accept: 'image/*, .pdf',
+    accept: 'image/*',
     multiple: true,
     maxFiles: 4,
     onDrop: acceptedFiles => {
@@ -18,7 +18,7 @@ const UploadImages = ({onMoveToPrevStep}) => {
           preview: URL.createObjectURL(file),
         };
       });
-      setFiles(uploads);
+      setImages(uploads);
     },
   });
 
@@ -30,21 +30,25 @@ const UploadImages = ({onMoveToPrevStep}) => {
     }
   };
 
+  const handleSubmit = () => {
+    onSubmitForm(images)
+  };
+
   return (
     <div className='flex-grow-1 d-flex flex-column justify-content-center'>
 
       <div {...getRootProps({className: 'dropzone'})}>
         <input {...getInputProps()} />
         <div className='bg-light border-info d-flex align-items-center justify-content-center'
-             style={{minWidth: 400, minHeight: 200}}>
+             style={{minWidth: 400, minHeight: 150}}>
           Drag and drop files here
         </div>
       </div>
 
-      {files.length > 0 &&
+      {images.length > 0 &&
       <div className='d-flex align-items-center flex-wrap mt-3'>
-        {files.map((file, index) => (
-          <div className='w-50 p-2'>
+        {images.map((file, index) => (
+          <div className='w-50 p-2 text-center' key={index}>
             <img src={file.preview} alt='uploads' height={100} width={100}/>
             <div className='mt-2'>
               <input type="checkbox" checked={featuredImage === file.id}
@@ -54,9 +58,9 @@ const UploadImages = ({onMoveToPrevStep}) => {
           </div>
         ))}
       </div>}
-      <div className='d-flex align-items-center justify-content-between mt-4'>
+      <div className='d-flex align-items-center justify-content-between mt-3'>
         <button className='bg-light rounded border-0 py-1 px-2' onClick={onMoveToPrevStep}>Go Back</button>
-        <button className='bg-primary text-white rounded border-0 py-1 px-2'>Submit</button>
+        <button className='bg-primary text-white rounded border-0 py-1 px-2' onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

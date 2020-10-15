@@ -10,7 +10,7 @@ const Stepper = ({step}) => {
   return (
     <div className='d-flex align-items-center mb-4'>
       {steps.map((item, index) => (
-        <div className='d-flex align-items-center'>
+        <div className='d-flex align-items-center' key={index}>
         <div className='d-flex flex-column align-items-center justify-content-center ml-3'>
           <div className={`${step === item.slug ? 'bg-primary' : 'bg-dark'}`}
                style={{height: 25, width: 25, borderRadius: '50%', textAlign: 'center', color: '#fff'}}>{item.slug}
