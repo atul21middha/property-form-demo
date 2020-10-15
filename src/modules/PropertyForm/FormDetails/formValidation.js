@@ -9,11 +9,11 @@ export const formValidation = (data) => {
   let errors = {};
   if (!data.address.trim()) {
     ERROR = true;
-    errors.address = "This field is required "
+    errors.address = "This field is required!"
   }
   if (!data.bedrooms.trim()) {
     ERROR = true;
-    errors.bedrooms = "This field is required"
+    errors.bedrooms = "This field is required!"
   }
   if(data.bedrooms && !validateNumber(data.bedrooms)){
     ERROR = true;
@@ -21,7 +21,7 @@ export const formValidation = (data) => {
   }
   if (!data.bathrooms.trim()) {
     ERROR = true;
-    errors.bathrooms = "Comment is required "
+    errors.bathrooms = "This field is required!"
   }
   if(data.bathrooms && !validateNumber(data.bathrooms)){
     ERROR = true;
