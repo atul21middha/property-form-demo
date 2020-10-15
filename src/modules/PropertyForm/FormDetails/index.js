@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {formValidation} from "./formValidation";
 import {useDropzone} from "react-dropzone";
 import Papa from 'papaparse';
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   const [csvData, setCsvData] = useState(null);
@@ -10,9 +11,11 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   const [bathrooms, setBathrooms] = useState('');
   const [description, setDescription] = useState('');
   const [validationErrors, setValidationErrors] = useState({});
+  const [addressText, setAddressText] = useState(formFillType === 'custom' ? 'Bikaner, Rajasthan, India' : '');
 
   useEffect(() => {
     if (csvData) {
+      setAddressText(csvData[1][0]);
       setAddress(csvData[1][0]);
       setBedRooms(csvData[1][1]);
       setBathrooms(csvData[1][2]);
@@ -60,6 +63,14 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
     return formFillType === 'csv' && !csvData
   };
 
+  const handleAddress = value => {
+    setAddressText(value)
+  };
+
+  const onSelectAddress = (e) => {
+    setAddress(e.label)
+  };
+
   return (
     <div className='flex-grow-1'>
 
@@ -74,8 +85,16 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
 
         <div className='mt-3'>
           <label className='font-weight-bold'>Address:</label>
-          <input type="text" disabled={handleDisableCondition()} className='w-100' value={address}
-                 onChange={(e) => setAddress(e.target.value)}
+          <GooglePlacesAutocomplete
+            apiKey="AIzaSyBfvfj5oqsEKSY6uLFzrcX0dSvk412wkh0"
+            selectProps={{
+              inputValue: addressText,
+              onInputChange: handleAddress,
+              onChange: onSelectAddress,
+              isDisabled: handleDisableCondition(),
+              placeholder: 'Search the Address...'
+            }}
+
           />
           {getErrorMessage('address')}
         </div>
