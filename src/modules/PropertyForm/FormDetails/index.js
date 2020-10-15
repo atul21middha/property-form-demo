@@ -6,7 +6,7 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 
 const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   const [csvData, setCsvData] = useState(null);
-  const [address, setAddress] = useState(formFillType === 'custom' ? 'Bikaner, Rajasthan, India' : '');
+  const [address, setAddress] = useState('');
   const [bedrooms, setBedRooms] = useState('');
   const [bathrooms, setBathrooms] = useState('');
   const [description, setDescription] = useState('');
@@ -47,7 +47,7 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    let validateForm = formValidation({address, bedrooms, bathrooms});
+    let validateForm = formValidation({address: addressText ? addressText : address, bedrooms, bathrooms});
     if (validateForm.ERROR) {
       setValidationErrors(validateForm)
     } else {
@@ -56,7 +56,7 @@ const FormDetails = ({formFillType, onMoveToNextStep, onMoveToPrevStep}) => {
   };
 
   const onSaveEvent = () => {
-    onMoveToNextStep(2, {address, bedrooms, bathrooms, description})
+    onMoveToNextStep(2, {address: addressText ? addressText : address, bedrooms, bathrooms, description})
   };
 
   const handleDisableCondition = () => {
